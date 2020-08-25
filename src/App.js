@@ -4,10 +4,11 @@ import ReactPlayer from "react-player";
 import {Duration} from "./Duration";
 
 function App() {
-  const [url, setUrl] = useState('https://www.youtube.com/watch?v=OfIQW6s1-ew');
+  const [url, setUrl] = useState('https://www.youtube.com/watch?v=8bX5ASmVh4Q');
   const [nowSeek, setSeek] = useState(0);
   const setUrlHandler = (event) => {
     setUrl(event.target.nextElementSibling.value);
+    setSeek(0);
   };
   const seekHandler = (e) => {
       setSeek(e.playedSeconds);
