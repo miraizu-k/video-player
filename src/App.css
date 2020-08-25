@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+  .input-box {
+    margin: 5px auto;
+  }
+  .input-box input {
+    width: 50%;
+    margin-left: 15px;
+  }
+  .player {
+    margin: 10px auto;
+  }

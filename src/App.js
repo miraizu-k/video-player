@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import ReactPlayer from "react-player";
+import {Duration} from "./Duration";
 
 function App() {
+  const [url, setUrl] = useState('https://www.youtube.com/watch?v=ysz5S6PUM-U');
+  const [nowSeek, setSeek] = useState(0);
+  const setUrlHandler = (event) => {
+    setUrl(event.target.nextElementSibling.value);
+  };
+  const seekHandler = (e) => {
+      setSeek(e.playedSeconds);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="input-box">
+        <button onClick={setUrlHandler} type="button">URL変更</button><input id="play-url" type="text" defaultValue={url} />
+      </div>
+      <ReactPlayer url={url} className="player" onProgress={seekHandler} progressInterval={250} />
+      <div>
+          <Duration seconds={nowSeek} />
+      </div>
     </div>
   );
 }
