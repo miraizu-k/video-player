@@ -4,7 +4,7 @@ import ReactPlayer from "react-player";
 import {Duration} from "./Duration";
 
 function App() {
-  const [url, setUrl] = useState('https://www.youtube.com/watch?v=ysz5S6PUM-U');
+  const [url, setUrl] = useState('https://www.youtube.com/watch?v=OfIQW6s1-ew');
   const [nowSeek, setSeek] = useState(0);
   const setUrlHandler = (event) => {
     setUrl(event.target.nextElementSibling.value);
