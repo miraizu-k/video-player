@@ -18,7 +18,7 @@ function App() {
       <div className="input-box">
         <button onClick={setUrlHandler} type="button">URL変更</button><input id="play-url" type="text" defaultValue={url} />
       </div>
-      <ReactPlayer url={url} className="player" onProgress={seekHandler} progressInterval={250} />
+      <ReactPlayer url={url} className="player" onProgress={seekHandler} progressInterval={250} controls={true} />
       <div>
           <Duration seconds={nowSeek} />
       </div>
