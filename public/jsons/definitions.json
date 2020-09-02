@@ -10,7 +10,7 @@
           {"start" :  30, "end" :  50},
           {"start" :  10, "end" :  20}
         ],
-        "image" : "/images/01.png",
+        "image" : "./images/01.png",
         "name" : "ガラスボウル",
         "jumpTo" : 10,
         "link" : ""
@@ -20,7 +20,7 @@
         "times" : [
           {"start" :  15, "end" :  35}
         ],
-        "image" : "/images/02.png",
+        "image" : "./images/02.png",
         "name" : "IH片手鍋",
         "jumpTo" : 15,
         "link" : ""
@@ -30,7 +30,7 @@
         "times" : [
           {"start" :  55, "end" :  60}
         ],
-        "image" : "/images/03.png",
+        "image" : "./images/03.png",
         "name" : "IHクッキングヒーター",
         "jumpTo" : 58,
         "link" : ""

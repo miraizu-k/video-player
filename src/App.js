@@ -105,7 +105,7 @@ function App(callback, deps) {
             makePlayerHeight();
         });
 
-        fetch('/jsons/definitions.json')
+        fetch('./jsons/definitions.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error();
