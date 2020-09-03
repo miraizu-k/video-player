@@ -10,6 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import {Duration} from "./Duration";
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -38,6 +39,7 @@ function App(callback, deps) {
     const [movieItemInfos, setMovieItemInfos] = useState({});
     const [showItems, setShowItems] = useState([]);
     const [stackInfos, setStackInfos] = useState(null);
+    const [nowSeek, setSeek] = useState(0);
 
     const normalizeItemInfo = useCallback((movie) => {
         const timedItems = {};
@@ -62,22 +64,13 @@ function App(callback, deps) {
 
     const seekHandler = useCallback((e) => {
         const nowSecond = Math.floor(e.playedSeconds);
+        setSeek(nowSecond);
         setShowItems(movieItemInfos["time" + nowSecond]);
-        if (!stackInfos) {
-            const obj = {};
-            for (let i = 0; i <= nowSecond;i++) {
-                if (typeof movieItemInfos['time' + i] === "object") {
-                    movieItemInfos['time' + i].forEach(v => {
-                        obj[v.key] = v;
-                    });
-                }
-            }
-            setStackInfos(obj);
-        } else {
-            const obj = stackInfos;
-            (movieItemInfos['time' + nowSecond] || []).forEach(v => {
-                obj[v.key] = v;
-            });
+        const base = JSON.stringify(stackInfos || {}), obj = JSON.parse(base);
+        (movieItemInfos['time' + nowSecond] || []).forEach(v => {
+            obj[v.key] = v;
+        });
+        if (JSON.stringify(obj) !== base) {
             setStackInfos(obj);
         }
     }, [movieItemInfos, stackInfos]);
@@ -85,12 +78,22 @@ function App(callback, deps) {
     const player = useRef();
 
     const playMovieHandler = useCallback(e => {
-        setStackInfos(null);
-    }, []);
+        if (!stackInfos) {
+            return ;
+        }
+        const obj = {}, nowSeek = player.current.getCurrentTime();
+        for (let i = 0; i <= nowSeek;i++) {
+            if (typeof movieItemInfos['time' + i] === "object") {
+                movieItemInfos['time' + i].forEach(v => {
+                    obj[v.key] = v;
+                });
+            }
+        }
+        setStackInfos(obj);
+    }, [movieItemInfos, stackInfos]);
 
-    const testHandler = useCallback(e => {
-        const stackInfo = stackInfos[e.target.dataset.key];
-        player.current.player.seekTo(stackInfo.jumpTo);
+    const movieItemClickHandler = useCallback((key) => {
+        return () => player.current.player.seekTo(stackInfos[key].jumpTo);
     }, [stackInfos]);
 
 
@@ -141,6 +144,9 @@ function App(callback, deps) {
                                          url={movie.url} onProgress={seekHandler} progressInterval={250} controls={true}
                                          playing={true} onPlay={playMovieHandler}
                             />
+                            <div>
+                                <Duration seconds={nowSeek} />
+                            </div>
                         </Grid>
                         <Grid item xs={3}>
                             {(showItems||[]).map(showItem => {
@@ -157,8 +163,8 @@ function App(callback, deps) {
                     <Grid container spacing={2} direction={"row"} className={classes.mediaList}>
                         {(Object.values(stackInfos || {})).map((data) => (
                             <Card key={data.key}>
-                                <CardActionArea onClick={testHandler}>
-                                    <img src={data.image} alt={data.name} className={classes.mediaListImage} data-key={data.key} />
+                                <CardActionArea onClick={movieItemClickHandler(data.key)}>
+                                    <img src={data.image} alt={data.name} className={classes.mediaListImage} />
                                 </CardActionArea>
                             </Card>
                         ))}
