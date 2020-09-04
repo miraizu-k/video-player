@@ -12,7 +12,6 @@
         ],
         "image" : "./images/01.png",
         "name" : "ガラスボウル",
-        "jumpTo" : 8,
         "link" : ""
       },
       {
@@ -22,7 +21,6 @@
         ],
         "image" : "./images/02.png",
         "name" : "IH片手鍋",
-        "jumpTo" : 15,
         "link" : ""
       },
       {
@@ -32,7 +30,6 @@
         ],
         "image" : "./images/03.png",
         "name" : "IHクッキングヒーター",
-        "jumpTo" : 15,
         "link" : ""
       },
       {

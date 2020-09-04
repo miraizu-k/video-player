@@ -44,9 +44,12 @@ function App(callback, deps) {
     const normalizeItemInfo = useCallback((movie) => {
         const timedItems = {};
         (movie.items||[]).forEach(item => {
+            const firstTime = item.times[0] || {};
             (item.times||[]).forEach(time => {
                 for(let i = time.start, l = time.end; i <= l; i += 1) {
                     let data = timedItems["time" + i] || [];
+                    item.jumpTo = item.jumpTo || firstTime.start;
+                    item.appendTime = firstTime.end + 1;
                     data.push(item);
                     timedItems["time" + i] = data;
                 }
@@ -66,9 +69,12 @@ function App(callback, deps) {
         const nowSecond = Math.floor(e.playedSeconds);
         setSeek(nowSecond);
         setShowItems(movieItemInfos["time" + nowSecond]);
+
         const base = JSON.stringify(stackInfos || {}), obj = JSON.parse(base);
-        (movieItemInfos['time' + nowSecond] || []).forEach(v => {
-            obj[v.key] = v;
+        (movieItemInfos['time' + (nowSecond - 1)] || []).forEach(v => {
+            if (nowSecond === v.appendTime) {
+                obj[v.key] = v;
+            }
         });
         if (JSON.stringify(obj) !== base) {
             setStackInfos(obj);
